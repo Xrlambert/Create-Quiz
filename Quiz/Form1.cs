@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 
 /*
@@ -27,7 +28,10 @@ namespace Quiz
         int corrects = 0;
         // Total time allowed for the quiz (in seconds)
         double time = 25;
-        
+
+        Stopwatch stopwatch = new Stopwatch();
+        double[] times = {0,0,0,0,0 };
+
         public Form1()
         {
             InitializeComponent();
@@ -37,10 +41,21 @@ namespace Quiz
             timer = new System.Windows.Forms.Timer();
             timer.Interval = 1000;
             timer.Tick += Timer_Tick;// Event for countdown
+
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
+            //stop stopwatch and store it in list to be used at end of quiz
+            stopwatch.Stop();
+            string elapsed = "";
+            //grab time and convert to double and then put in list when not on first page
+            if (currentPage > 1)
+            {
+                stopwatch.ElapsedMilliseconds.ToString(elapsed);
+                times[currentPage - 2] = Convert.ToDouble(elapsed);
+            }
+
             int choice = 0;
 
             // Start timer when quiz begins (on first page)
@@ -57,7 +72,8 @@ namespace Quiz
             radCheck(choice);
 
             // Evaluate answer depending on current question
-            switch (currentPage) {
+            switch (currentPage)
+            {
                 case 1:
                     // Show answer options after start
                     radioButton1.Visible = radioButton2.Visible = radioButton3.Visible = radioButton4.Visible = true;
@@ -90,13 +106,20 @@ namespace Quiz
         //Checks which radio button is selected and returns its number
         private int radCheck(int chose)
         {
-            if (radioButton1.Checked) {
+            if (radioButton1.Checked)
+            {
                 chose = 1;
-            } else if (radioButton2.Checked) {
+            }
+            else if (radioButton2.Checked)
+            {
                 chose = 2;
-            } else if (radioButton3.Checked) {
+            }
+            else if (radioButton3.Checked)
+            {
                 chose = 3;
-            } else if (radioButton4.Checked) {
+            }
+            else if (radioButton4.Checked)
+            {
                 chose = 4;
             }
             return chose;
@@ -107,7 +130,8 @@ namespace Quiz
         {
             // Reset radio button selections
             radioButton1.Checked = radioButton2.Checked = radioButton3.Checked = radioButton4.Checked = false;
-            switch (currentPage) {
+            switch (currentPage)
+            {
                 case 1:
                     // Title screen
                     lblQuestion.Text = "Quiz";
@@ -180,6 +204,18 @@ namespace Quiz
                 Thread.Sleep(1000);
                 currentPage = 7;
             }
+        }
+
+        private void restarted_Click(object sender, EventArgs e)
+        {
+            // Reset quiz state for restart
+            currentPage = 1;
+            DisplayPage();
+            corrects = 0;
+            time = 25;
+            lblResult.Visible = false;
+            lblTimer.Visible = false;
+            radioButton1.Visible = radioButton2.Visible = radioButton3.Visible = radioButton4.Visible = false;
         }
     }
 }

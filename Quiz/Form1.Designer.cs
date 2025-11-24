@@ -40,6 +40,7 @@
             lblTimer = new Label();
             btnSubmit = new Button();
             lblResult = new Label();
+            restarted = new Button();
             SuspendLayout();
             // 
             // lblQuestion
@@ -99,7 +100,7 @@
             // 
             lblTimer.AutoSize = true;
             lblTimer.Font = new Font("Segoe UI", 10F);
-            lblTimer.Location = new Point(26, 197);
+            lblTimer.Location = new Point(148, 212);
             lblTimer.Name = "lblTimer";
             lblTimer.Size = new Size(94, 19);
             lblTimer.TabIndex = 5;
@@ -123,11 +124,22 @@
             lblResult.Size = new Size(110, 103);
             lblResult.TabIndex = 7;
             // 
+            // restarted
+            // 
+            restarted.Location = new Point(158, 234);
+            restarted.Name = "restarted";
+            restarted.Size = new Size(75, 28);
+            restarted.TabIndex = 8;
+            restarted.Text = " Restart";
+            restarted.UseVisualStyleBackColor = true;
+            restarted.Click += restarted_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(445, 300);
+            Controls.Add(restarted);
             Controls.Add(btnSubmit);
             Controls.Add(lblTimer);
             Controls.Add(radioButton4);
@@ -145,5 +157,6 @@
         #endregion
 
         private Label lblResult;
+        private Button restarted;
     }
 }
